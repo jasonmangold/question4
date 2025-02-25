@@ -157,6 +157,31 @@
             border-radius: 8px;
         }
 
+        .learn-more h3, .related-topics h3 {
+            color: var(--secondary);
+            margin: 25px 0 15px;
+            font-size: 18px;
+        }
+
+        .report-list p {
+            margin: 8px 0;
+            padding-left: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .report-list p:hover {
+            color: var(--secondary);
+        }
+
+        .report-list p:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+
         .disclaimer {
             font-size: 14px;
             font-weight: 600;
@@ -261,7 +286,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="Logo.png" alt="Advisys Logo" class="logo">
+        <img src="C:\Users\jmangold\OneDrive - Advisys\Logo Images\Logo.png" alt="Advisys Logo" class="logo">
         <h1>How much life insurance should I have?</h1>
     </div>
 
@@ -302,8 +327,26 @@
                 <p id="resultMessage" class="result-message"></p>
                 <p>Life insurance helps ensure your family can maintain their financial stability if something happens to you. The right coverage amount depends on factors like income replacement, debts, future expenses, and your family's long-term needs.</p>
                 <br>
-		<p>A financial representative can help you determine the right policy, explore different coverage options, and ensure your loved ones are fully protected.</p>
+                <p>A financial representative can help you determine the right policy, explore different coverage options, and ensure your loved ones are fully protected.</p>
                 
+                <div class="learn-more">
+                    <h3>Learn More:</h3>
+                    <div class="report-list">
+                        <p>"Whole Life Insurance"</p>
+                        <p>"Term Insurance"</p>
+                        <p>"The Need for Responsible Planning"</p>
+                    </div>
+                </div>
+
+                <div class="related-topics">
+                    <h3>Related Topics:</h3>
+                    <div class="report-list">
+                        <p>"Scholarship Strategies"</p>
+                        <p>"Student Loan Options"</p>
+                        <p>"Budgeting for College"</p>
+                    </div>
+                </div>
+
                 <p class="disclaimer">The suggested recommendations serve as general guidelines but may differ based on your unique financial circumstances. Contact a financial representative for a more personalized assessment.</p>
                 <button class="download-button" onclick="downloadPDF()">Download Results</button>
             </div>
