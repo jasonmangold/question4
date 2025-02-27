@@ -331,10 +331,8 @@
                 
                 <div class="learn-more">
                     <h3>Learn More:</h3>
-                    <div class="report-list">
-                        <p>"Whole Life Insurance"</p>
-                        <p>"Term Insurance"</p>
-                        <p>"The Need for Responsible Planning"</p>
+                    <div class="report-list" id="learnMoreList">
+                        <!-- Options will be dynamically inserted here -->
                     </div>
                 </div>
 
@@ -366,6 +364,7 @@
         const currentInsuranceInput = document.getElementById('current-insurance');
         const resultMessage = document.getElementById('resultMessage');
         const chartCanvas = document.getElementById('insuranceChart');
+        const learnMoreList = document.getElementById('learnMoreList');
 
         const ctx = chartCanvas.getContext('2d');
         const insuranceChart = new Chart(ctx, {
@@ -416,6 +415,61 @@
             }
         });
 
+        // Full list of Learn More options
+        const learnMoreOptions = [
+            "Life Insurance - LTC Combination Policies",
+            "Pension Income Alternative",
+            "The Chance of Dying Before Age 65",
+            "Considerations in the Purchase of Life Insurance",
+            "Group Term Life Insurance",
+            "Indexed Universal Life Insurance",
+            "Insurance Company Rating Systems",
+            "Term Life Insurance",
+            "The Need for Responsible Planning",
+            "Types of Life Insurance Policies",
+            "Universal Life Insurance",
+            "Using Cash Value Life Insurance",
+            "Variable Life Insurance",
+            "Variable Universal Life Insurance",
+            "Whole Life Insurance",
+            "The Social Security “Blackout” Period",
+            "Social Security Survivor Benefits"
+        ];
+
+        function updateLearnMore(age, income) {
+            // Filter options based on conditions
+            const filteredOptions = learnMoreOptions.filter(option => {
+                if (option === "Life Insurance - LTC Combination Policies") {
+                    return age >= 50 && income >= 75000;
+                }
+                if (option === "Pension Income Alternative") {
+                    return age <= 67;
+                }
+                if (option === "The Chance of Dying Before Age 65") {
+                    return age <= 65;
+                }
+                if ([
+                    "Indexed Universal Life Insurance",
+                    "Universal Life Insurance",
+                    "Using Cash Value Life Insurance",
+                    "Variable Life Insurance",
+                    "Variable Universal Life Insurance",
+                    "Whole Life Insurance"
+                ].includes(option)) {
+                    return age <= 60 && income >= 75000;
+                }
+                // Options with no conditions
+                return true;
+            });
+
+            // Randomly select 3 options from the filtered list
+            const shuffled = filteredOptions.sort(() => 0.5 - Math.random());
+            const selectedOptions = shuffled.slice(0, 3);
+
+            // Update the Learn More list in the DOM
+            learnMoreList.innerHTML = selectedOptions.map(option => `<p>${option}</p>`).join('');
+        }
+
         function updateChart() {
             const age = parseFloat(ageInput.value) || 0;
             const annualIncome = parseFloat(annualIncomeInput.value) || 0;
@@ -442,6 +496,9 @@
                 recommendedAmount,
                 shortfall
             };
+
+            // Update Learn More section based on age and income
+            updateLearnMore(age, annualIncome);
         }
 
         function downloadPDF() {
@@ -492,7 +549,7 @@
             input.addEventListener('input', updateChart);
         });
 
-        // Initial chart update
+        // Initial chart and Learn More update
         updateChart();
     </script>
 </body>
