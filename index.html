@@ -338,11 +338,7 @@
 
                 <div class="related-topics">
                     <h3>Related Topics:</h3>
-                    <div class="report-list">
-                        <p>"Scholarship Strategies"</p>
-                        <p>"Student Loan Options"</p>
-                        <p>"Budgeting for College"</p>
-                    </div>
+                    <div class="report-list" id="relatedTopicsReports"></div>
                 </div>
 
                 <p class="disclaimer">The suggested recommendations serve as general guidelines but may differ based on your unique financial circumstances. Contact a financial representative for a more personalized assessment.</p>
@@ -359,12 +355,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script>
-        const ageInput = document.getElementById('age');
+        const ageInput = document.getElementBy_id('age');
         const annualIncomeInput = document.getElementById('annual-income');
         const currentInsuranceInput = document.getElementById('current-insurance');
         const resultMessage = document.getElementById('resultMessage');
         const chartCanvas = document.getElementById('insuranceChart');
         const learnMoreList = document.getElementById('learnMoreList');
+        const relatedTopicsReports = document.getElementById('relatedTopicsReports');
 
         const ctx = chartCanvas.getContext('2d');
         const insuranceChart = new Chart(ctx, {
@@ -436,8 +433,51 @@
             "Social Security Survivor Benefits"
         ];
 
+        const relatedReports = [
+            {title: "Basic Steps in the Financial Planning Process", category: "Financial Planning", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "Choose the Financial Planning Team", category: "Financial Planning", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "Individual Disability Income Insurance", category: "Disability", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "The Impact of Disability", category: "Disability", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "The Individual Need for Disability Insurance", category: "Disability", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "The Need for Retirement Planning", category: "Retirement", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "Social Security Retirement Claiming Strategies for Married Couples", category: "Retirement", minAge: 55, maxAge: 70, minIncome: null, maxIncome: null},
+            {title: "When to Take Social Security Retirement Benefits", category: "Retirement", minAge: 55, maxAge: 70, minIncome: null, maxIncome: null},
+            {title: "How a Roth IRA Works", category: "Retirement", minAge: null, maxAge: null, minIncome: null, maxIncome: 230000},
+            {title: "IRAs Compared", category: "Retirement", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "How a 401(k) Cash or Deferred Plan Works", category: "Retirement", minAge: 50, maxAge: 65, minIncome: 75000, maxIncome: null},
+            {title: "Life Insurance - LTC Combination Policies", category: "LTC", minAge: 50, maxAge: null, minIncome: 75000, maxIncome: null},
+            {title: "Choosing a College", category: "College", minAge: null, maxAge: 45, minIncome: null, maxIncome: null},
+            {title: "College and Financial Aid Calendar", category: "College", minAge: null, maxAge: 53, minIncome: null, maxIncome: null},
+            {title: "Growth in College Costs (1990-2018)", category: "College", minAge: null, maxAge: 45, minIncome: null, maxIncome: null},
+            {title: "Paying for College Today", category: "College", minAge: null, maxAge: 53, minIncome: null, maxIncome: null},
+            {title: "The Benefits of a College Education", category: "College", minAge: null, maxAge: 45, minIncome: null, maxIncome: null},
+            {title: "Ways to Pay for College", category: "College", minAge: null, maxAge: 53, minIncome: 50000, maxIncome: null},
+            {title: "529 Education Savings Plan", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "529 Prepaid Tuition Plans", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "Coverdell Education Savings Accounts", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "Education Savings Plans Compared", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "How a 529 Education Savings Plan Works", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "How a 529 Prepaid Tuition Plan Works", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "How a Coverdell ESA Works", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "Saving for College", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "Section 529 Qualified Tuition Plans", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "Ways to Save for College", category: "College", minAge: null, maxAge: 45, minIncome: 50000, maxIncome: null},
+            {title: "Advantages of a Will", category: "Estate", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "Avoiding Probate", category: "Estate", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "Basic Steps in the Estate Planning Process", category: "Estate", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "The Importance of Beneficiary Designations", category: "Estate", minAge: null, maxAge: null, minIncome: null, maxIncome: null},
+            {title: "The Need for Estate Planning", category: "Estate", minAge: null, maxAge: null, minIncome: null, maxIncome: null}
+        ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         function updateLearnMore(age, income) {
-            // Filter options based on conditions
             const filteredOptions = learnMoreOptions.filter(option => {
                 if (option === "Life Insurance - LTC Combination Policies") {
                     return age >= 50 && income >= 75000;
@@ -458,16 +498,49 @@
                 ].includes(option)) {
                     return age <= 60 && income >= 75000;
                 }
-                // Options with no conditions
                 return true;
             });
 
-            // Randomly select 3 options from the filtered list
             const shuffled = filteredOptions.sort(() => 0.5 - Math.random());
             const selectedOptions = shuffled.slice(0, 3);
 
-            // Update the Learn More list in the DOM
             learnMoreList.innerHTML = selectedOptions.map(option => `<p>${option}</p>`).join('');
+        }
+
+        function updateRelatedTopics(age, income) {
+            const filteredReports = relatedReports.filter(report => {
+                const meetsAge = 
+                    (report.minAge === null || age >= report.minAge) &&
+                    (report.maxAge === null || age <= report.maxAge);
+                const meetsIncome = 
+                    (report.minIncome === null || income >= report.minIncome) &&
+                    (report.maxIncome === null || income <= report.maxIncome);
+                return meetsAge && meetsIncome;
+            });
+
+            const shuffledReports = shuffleArray([...filteredReports]);
+            const selectedReports = [];
+            const usedCategories = new Set();
+
+            for (const report of shuffledReports) {
+                if (!usedCategories.has(report.category) && selectedReports.length < 3) {
+                    selectedReports.push(report.title);
+                    usedCategories.add(report.category);
+                }
+            }
+
+            // If we don't have 3 reports, fill with any remaining valid reports without duplicating categories
+            while (selectedReports.length < 3 && filteredReports.length > selectedReports.length) {
+                const remainingReports = filteredReports.filter(r => !selectedReports.includes(r.title));
+                for (const report of shuffleArray(remainingReports)) {
+                    if (!usedCategories.has(report.category) && selectedReports.length < 3) {
+                        selectedReports.push(report.title);
+                        usedCategories.add(report.category);
+                    }
+                }
+            }
+
+            relatedTopicsReports.innerHTML = selectedReports.map(report => `<p>"${report}"</p>`).join('');
         }
 
         function updateChart() {
@@ -497,8 +570,8 @@
                 shortfall
             };
 
-            // Update Learn More section based on age and income
             updateLearnMore(age, annualIncome);
+            updateRelatedTopics(age, annualIncome);
         }
 
         function downloadPDF() {
